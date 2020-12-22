@@ -1,0 +1,59 @@
+version: "3.1"
+
+services:
+  mongo-db:
+    image: mongo:${MONGO_VERSION}
+    container_name: mongo-db
+    restart: always
+    networks:
+      - internal
+    environment: 
+      - MONGO_INITDB_ROOT_USERNAME=${MONGO_ROOT_USER}
+      - MONGO_INITDB_ROOT_PASSWORD=${MONGO_ROOT_PASS}
+
+  server:
+    build:
+      context: ./server/
+      dockerfile: Dockerfile
+    container_name: server
+    restart: always
+    volumes:
+      - ./logs:/app/logs
+    networks:
+      - internal
+    depends_on:
+      - mongo-db
+    environment:
+      - APP_PORT=${SERVER_PORT}
+      - LOG_LEVEL=${LOG_LEVEL}
+      - MONGO_URL=${MONGO_URL}
+
+  settings-panel:
+    build:
+      context: ./settings-panel/
+      dockerfile: Dockerfile
+    container_name: settings-panel
+    restart: always
+    ports:
+      - 8090:80
+    networks:
+      - internal
+    depends_on:
+      - server
+
+  overlay-panel:
+    build:
+      context: ./overlay/
+      dockerfile: Dockerfile
+    container_name: overlay-panel
+    restart: always
+    ports:
+      - 8080:80
+    networks:
+      - internal
+    depends_on:
+      - server
+
+networks:
+  internal:
+    driver: bridge

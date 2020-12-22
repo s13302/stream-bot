@@ -1,0 +1,7 @@
+version: "3.1"
+
+services:
+  server:
+    command: "npm run dev"
+    ports:
+      - ${SERVER_PORT}:${SERVER_PORT}
