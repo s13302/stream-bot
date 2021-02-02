@@ -1,8 +1,17 @@
-import mongoose from 'mongoose';
+import mongoose, { Schema, Document } from 'mongoose';
 
 import db from '../db';
 
-const SettingsSchema = new mongoose.Schema({
+export interface ISettings extends Document {
+  accessToken: string;
+  refreshToken: string;
+  createdAt: Date;
+  expiresAt: Date;
+
+  isValid(): boolean;
+}
+
+const SettingsSchema = new Schema({
   accessToken: {
     type: String,
     required: true,
@@ -24,4 +33,13 @@ const SettingsSchema = new mongoose.Schema({
   versionKey: false,
 });
 
-export default db.model('Settings', SettingsSchema);
+SettingsSchema.methods = {
+  ...SettingsSchema.methods,
+  isValid() {
+    return (this.expiresAt.getTime() > Date.now());
+  },
+};
+
+const model = db.model<ISettings>('Settings', SettingsSchema);
+
+export default model;

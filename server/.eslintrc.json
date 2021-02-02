@@ -18,5 +18,9 @@
         "**/dist/*.js"
     ],
     "rules": {
+        "no-console": "off",
+        "max-len": "off",
+        "import/extensions": "off",
+        "import/no-unresolved": "off"
     }
 }

@@ -22,6 +22,17 @@ router.get('/', (_, res) => {
   res.redirect(`${baseUrl}authorize?${urlParams}`);
 });
 
+router.get('/authorized', async (_, res, next) => {
+  try {
+    const tokenExists = await SettingsModel.exists({});
+    res.json({
+      authorized: tokenExists,
+    });
+  } catch (err) {
+    next(err);
+  }
+});
+
 router.get('/callback', async (req, res, next) => {
   const {
     error,

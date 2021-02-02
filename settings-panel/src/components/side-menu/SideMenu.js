@@ -7,7 +7,6 @@ import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 
-import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import DashboardIcon from '@material-ui/icons/Dashboard';
 import ExtensionIcon from '@material-ui/icons/Extension';
 import RedeemIcon from '@material-ui/icons/Redeem';
@@ -18,6 +17,7 @@ import TimerIcon from '@material-ui/icons/Timer';
 import HelpIcon from '@material-ui/icons/Help';
 
 import './SideMenu.css';
+import LoginToTwitchBtn from './login-to-twitch-btn/LoginToTwitchBtn';
 import ItemWithSubmenu from './item-with-submenu/ItemWithSubmenu';
 
 const SideMenu = ({ history, className, paperClassName }) => {
@@ -27,12 +27,7 @@ const SideMenu = ({ history, className, paperClassName }) => {
         paper: paperClassName,
       }}>
         <List>
-          <ListItem button onClick={() => history.push('/twitch-auth')}>
-            <ListItemIcon>
-              <ExitToAppIcon />
-            </ListItemIcon>
-            <ListItemText primary="Login to Twitch" />
-          </ListItem>
+          <LoginToTwitchBtn />
         </List>
         <Divider />
         <List>
